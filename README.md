@@ -204,6 +204,67 @@ src/
         └── service/      # Unit tests
 ```
 
+## Architecture
+
+The service follows a layered architecture with reactive components:
+
+```mermaid
+classDiagram
+    class SecretSantaController {
+        -SecretSantaService service
+        +createAssignments(year) Flux~FamilyAssignment~
+    }
+    
+    class SecretSantaService {
+        -MemberRepository memberRepo
+        -AssignmentRepository assignmentRepo
+        -AssignmentStrategy strategy
+        -AssignmentValidator validator
+        +createAssignments(year) Flux~FamilyAssignment~
+    }
+    
+    class HamiltonianCycleStrategy {
+        +generateAssignments(year, members, recentAssignments) List~FamilyAssignment~
+        -buildGraph() Map
+        -findHamiltonianCycle() List
+        -isValidAssignment() boolean
+    }
+    
+    class FamilyMember {
+        +Long id
+        +Integer familyId
+        +String name
+        +List~Edge~ relations
+    }
+    
+    class FamilyAssignment {
+        +Long id
+        +Integer assignmentYear
+        +Long santaId
+        +Long recipientId
+        +FamilyMember santa
+        +FamilyMember recipient
+    }
+    
+    class AssignmentValidator {
+        +validateParticipants(members) Mono~List~
+    }
+
+    SecretSantaController --> SecretSantaService
+    SecretSantaService --> HamiltonianCycleStrategy
+    SecretSantaService --> AssignmentValidator
+    SecretSantaService --> FamilyAssignment
+    HamiltonianCycleStrategy --> FamilyMember
+    HamiltonianCycleStrategy --> FamilyAssignment
+```
+
+Key Components:
+- `SecretSantaController`: REST endpoint for assignment creation
+- `SecretSantaService`: Core business logic and orchestration
+- `HamiltonianCycleStrategy`: Assignment generation algorithm
+- `AssignmentValidator`: Validates input data and constraints
+- `FamilyMember` & `FamilyAssignment`: Domain models
+
 ### Design Patterns Used
 - Strategy Pattern (Assignment generation)
 - Repository Pattern (Data access)
