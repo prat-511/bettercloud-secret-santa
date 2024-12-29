@@ -1,0 +1,18 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/secretsanta
+    username: postgres
+    password: password
+    pool:
+      initial-size: 5
+      max-size: 20
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.r2dbc: DEBUG
+    io.r2dbc.postgresql: DEBUG
+    org.springframework.data.r2dbc: DEBUG
+    org.springframework.transaction: DEBUG
