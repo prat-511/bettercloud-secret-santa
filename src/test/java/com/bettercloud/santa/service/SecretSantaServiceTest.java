@@ -54,10 +54,12 @@ class SecretSantaServiceTest {
     void whenNoParticipants_thenThrowInvalidParticipantsException() {
         // Given
         when(memberRepository.findAllWithRelations()).thenReturn(Flux.empty());
+        when(assignmentRepository.findByYearsBetween(2024, 2024)).thenReturn(Flux.empty());
 
         // When & Then
-        assertThrows(InvalidParticipantsException.class, () ->
-                secretSantaService.createAssignments(2024).blockFirst(Duration.ofSeconds(5))
+        assertThrows(
+                InvalidParticipantsException.class,
+                () -> secretSantaService.createAssignments(2024).collectList().block()
         );
     }
 
@@ -70,6 +72,7 @@ class SecretSantaServiceTest {
                 new FamilyMember(3L, 1, "C")  // All from family 1
         );
         when(memberRepository.findAllWithRelations()).thenReturn(Flux.fromIterable(sameFamily));
+        when(assignmentRepository.findByYearsBetween(2024, 2024)).thenReturn(Flux.empty());
 
         // When & Then
         assertThrows(AssignmentImpossibleException.class, () ->

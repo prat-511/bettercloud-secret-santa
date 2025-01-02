@@ -35,12 +35,29 @@ public class SecretSantaService {
     }
 
     /**
-     * Creates assignments for the given year.
+     * Creates assignments for the given year if they don't exist, otherwise returns existing assignments.
      *
      * @param year The year for which assignments are to be created.
      * @return A Flux of FamilyAssignment objects.
      */
     public Flux<FamilyAssignment> createAssignments(Integer year) {
+        return assignmentRepository.findByYearsBetween(year, year)
+                .collectList()
+                .flatMapMany(existingAssignments -> {
+                    if (!existingAssignments.isEmpty()) {
+                        return loadExistingAssignments(existingAssignments);
+                    } else {
+                        return createAndSaveNewAssignments(year);
+                    }
+                });
+    }
+
+    private Flux<FamilyAssignment> loadExistingAssignments(List<FamilyAssignment> existingAssignments) {
+        return Flux.fromIterable(existingAssignments)
+                .flatMap(this::loadAssignmentDetails);
+    }
+
+    private Flux<FamilyAssignment> createAndSaveNewAssignments(Integer year) {
         return memberRepository.findAllWithRelations()
                 .collectList()
                 .flatMap(validator::validateParticipants)
