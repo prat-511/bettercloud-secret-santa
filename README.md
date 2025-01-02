@@ -117,10 +117,9 @@ To connect to the PostgreSQL database in pgAdmin:
 4. All participants from previous years continue to participate (no handling of members leaving)
 
 ### Technical Assumptions
-1. Concurrent requests for the same year should generate different but valid assignments
-2. Database is the single source of truth for all relationships and history
-3. Assignment generation is idempotent for a given year (can be rerun if needed)
-4. Performance scales factorially with number of participants due to the Hamiltonian Cycle algorithm (O(n!)).
+1. Database is the single source of truth for all relationships and history
+2. Assignment generation is idempotent for a given year (can be rerun if needed)
+3. Performance scales factorially with number of participants due to the Hamiltonian Cycle algorithm (O(n!)).
 
 ### Data Assumptions
 1. Member IDs are stable and don't change
