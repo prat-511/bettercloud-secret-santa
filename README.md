@@ -288,15 +288,15 @@ Key Components:
 ```
 
 ## Future Improvements (Not in any particular order)
-1. Add transaction management to avoid race conditions and ensure data consistency.
-2. Add different assignment algorithms like Random shift, Systematic swap, etc. Consider those strategies when the number of participants is large.
-3. Add Graph DB for more complex relationships (ex, marriage) (could add related_member_id to members table)
-4. Enhance validation rules
-5. Dockerize the application
-6. Implement caching
-7. Implement Rate limiting, Authentication, and Authorization, load balancing, notification service.
-8. Expand test coverage
-9. Add better logging(current level set to debug, could be changed to error in prod) and monitoring. API metrics that will be like clickstream data, how many times the API is called, how many times the API is successful, how many times the API is failed, etc.
-10.  Optional extras functionalities
-    1. Remembering gift item to a person from the previous time
-    2. Option to exclude members if they cannot attend a particular year (Just as a bonus) - could have a boolean column in members table like `is_active` that can be toggled to 0 or 1 as needed defaulting to 1
+1.  Add transaction management to avoid race conditions and ensure data consistency.
+2.  Add different assignment algorithms like Random shift, Systematic swap, etc. Consider those strategies when the number of participants is large.
+3.  Add Graph DB for more complex relationships (ex, marriage) (could add related_member_id to members table)
+4.  Enhance validation rules
+5.  Dockerize the application
+6.  Implement caching
+7.  Implement Rate limiting, Authentication, and Authorization, load balancing, notification service.
+8.  Expand test coverage
+9.  Add better logging(current level set to debug, could be changed to error in prod) and monitoring. API metrics that will be like clickstream data, how many times the API is called, how many times the API is successful, how many times the API is failed, etc.
+10. Optional extras functionalities
+     1. Remembering gift item to a person from the previous time
+     2. Option to exclude members if they cannot attend a particular year (Just as a bonus) - could have a boolean column in members table like `is_active` that can be toggled to 0 or 1 as needed defaulting to 1
